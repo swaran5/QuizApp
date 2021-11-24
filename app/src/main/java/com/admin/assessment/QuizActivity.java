@@ -3,6 +3,7 @@ package com.admin.assessment;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class QuizActivity extends AppCompatActivity {
     private boolean answered;
 
     private long backPressedTime;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,8 @@ public class QuizActivity extends AppCompatActivity {
         rb2 = findViewById(R.id.radio_button2);
         rb3 = findViewById(R.id.radio_button3);
         buttonConfirmNext = findViewById(R.id.button_confirm_next);
+        userName = getIntent().getExtras().getString("user_name");
+
 
         textColorDefaultRb = rb1.getTextColors();
         textColorDefaultCd = textViewCountDown.getTextColors();
@@ -214,6 +218,14 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void finishQuiz() {
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"abc@gmail.com"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Reg : Score of "+ userName);
+        intent.putExtra(Intent.EXTRA_TEXT,"My score is "+ score);
+        startActivity(intent);
+
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EXTRA_SCORE, score);
         setResult(RESULT_OK, resultIntent);

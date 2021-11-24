@@ -18,6 +18,7 @@ public class StartingScreenActivity extends AppCompatActivity {
     private TextView textViewHighscore;
 
     private int highscore;
+    String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class StartingScreenActivity extends AppCompatActivity {
         textViewHighscore = findViewById(R.id.text_view_highscore);
         loadHighscore();
 
+        userName = getIntent().getExtras().getString("user_name");
         Button buttonStartQuiz = findViewById(R.id.button_start_quiz);
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +40,7 @@ public class StartingScreenActivity extends AppCompatActivity {
 
     private void startQuiz() {
         Intent intent = new Intent(StartingScreenActivity.this, QuizActivity.class);
+        intent.putExtra("user_name", userName);
         startActivityForResult(intent, REQUEST_CODE_QUIZ);
     }
 
